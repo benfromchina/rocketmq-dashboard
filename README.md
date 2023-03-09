@@ -7,6 +7,20 @@
 [![Twitter Follow](https://img.shields.io/twitter/follow/ApacheRocketMQ?style=social)](https://twitter.com/intent/follow?screen_name=ApacheRocketMQ)
 ## Quick Start
 
+#### Docker build and run
+
+#### build with network
+
+```shell
+sh build-image-dashboard.sh ${VERSION} centos
+```
+
+#### build with jar
+
+```shell
+sh build-image-dashboard-jar.sh ${VERSION} centos
+```
+
 ### Run with docker
 
 #### Pull from [docker hub(rocketmq-dashboard)](https://hub.docker.com/r/apacherocketmq/rocketmq-dashboard/tags)
