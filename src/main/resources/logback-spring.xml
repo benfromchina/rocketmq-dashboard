@@ -17,6 +17,13 @@
   -->
 
 <configuration>
+	<springProperty scope="context" name="app" source="spring.application.name"
+					defaultValue="spring"/>
+	<springProperty scope="context" name="loggingFilePath" source="logging.file.path"
+					defaultValue="/var/log"/>
+	<springProperty scope="context" name="loggingLevelRoot" source="logging.level.root"
+					defaultValue="debug"/>
+
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder charset="UTF-8">
 			<pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}] %p %t - %m%n</pattern>
@@ -25,24 +32,20 @@
 
 	<appender name="FILE"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>${user.home}/logs/dashboardlogs/rocketmq-dashboard.log</file>
+		<file>${loggingFilePath}/${app}.log</file>
 		<append>true</append>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>${user.home}/logs/dashboardlogs/rocketmq-dashboard-%d{yyyy-MM-dd}.%i.log
-			</fileNamePattern>
-			<timeBasedFileNamingAndTriggeringPolicy
-				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-				<maxFileSize>104857600</maxFileSize>
-			</timeBasedFileNamingAndTriggeringPolicy>
-			<MaxHistory>10</MaxHistory>
+			<fileNamePattern>${loggingFilePath}/${app}.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<maxHistory>30</maxHistory>
+			<totalSizeCap>3GB</totalSizeCap>
 		</rollingPolicy>
 		<encoder>
-            <pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}] %p %t - %m%n</pattern>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %5p ${PID:-} --- [%15.15t] %-40.40logger{39} : %m%n</pattern>
 			<charset class="java.nio.charset.Charset">UTF-8</charset>
 		</encoder>
 	</appender>
 
-	<root level="INFO">
+	<root level="${loggingLevelRoot}">
 		<appender-ref ref="STDOUT" />
 		<appender-ref ref="FILE" />
 	</root>

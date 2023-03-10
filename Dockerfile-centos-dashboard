@@ -49,7 +49,7 @@ RUN mkdir -p /usr/share/maven /usr/share/maven/ref && \
     ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
 
 ### make it faster if remove those "#"s bellow
-# RUN sed -i '159i \
+#RUN sed -i '159i \
 #     <mirror> \
 #       <id>nexus-tencentyun</id> \
 #       <mirrorOf>*</mirrorOf> \
@@ -65,25 +65,20 @@ ENV ROCKETMQ_DASHBOARD_HOME  /home/rocketmq/rocketmq-dashboard-${ROCKETMQ_DASHBO
 WORKDIR ${ROCKETMQ_DASHBOARD_HOME}
 
 RUN set -eux; \
-    curl -L https://dist.apache.org/repos/dist/release/rocketmq/rocketmq-dashboard/${ROCKETMQ_DASHBOARD_VERSION}/rocketmq-dashboard-${ROCKETMQ_DASHBOARD_VERSION}-source-release.zip -o rocketmq-dashboard.zip; \
-    curl -L https://dist.apache.org/repos/dist/release/rocketmq/rocketmq-dashboard/${ROCKETMQ_DASHBOARD_VERSION}/rocketmq-dashboard-${ROCKETMQ_DASHBOARD_VERSION}-source-release.zip.asc -o rocketmq-dashboard.zip.asc; \
-    wget https://www.apache.org/dist/rocketmq/KEYS --no-check-certificate; \
-    \
-    gpg --import KEYS; \
-    gpg --batch --verify rocketmq-dashboard.zip.asc rocketmq-dashboard.zip ; \
+    curl -L https://github.com/apache/rocketmq-dashboard/archive/refs/heads/master.zip -o rocketmq-dashboard.zip; \
     unzip rocketmq-dashboard.zip ; \
-    rm rocketmq-dashboard.zip rocketmq-dashboard.zip.asc KEYS;
+    rm rocketmq-dashboard.zip;
 
-RUN cd rocketmq-dashboard-${ROCKETMQ_DASHBOARD_VERSION} ; \
+RUN cd rocketmq-dashboard-master ; \
     mvn -DskipTests clean install ;\
     ls -l target ;
 
 
 RUN mkdir bin; \
-    mv rocketmq-dashboard-${ROCKETMQ_DASHBOARD_VERSION}/target/rocketmq-dashboard-${ROCKETMQ_DASHBOARD_VERSION}.jar bin/ ; \
-    mv bin/rocketmq-dashboard-${ROCKETMQ_DASHBOARD_VERSION}.jar bin/rocketmq-dashboard.jar; \
+    mv rocketmq-dashboard-master/target/rocketmq-dashboard-*.jar bin/ ; \
+    mv bin/rocketmq-dashboard-*.jar bin/rocketmq-dashboard.jar; \
     ls -l bin; \
-    rm -rf rocketmq-dashboard-${ROCKETMQ_DASHBOARD_VERSION}
+    rm -rf rocketmq-dashboard-master
 
 RUN rm -rf /root/.m2/repository/*
 RUN rm -rf /usr/share/maven

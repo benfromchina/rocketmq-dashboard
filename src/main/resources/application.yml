@@ -33,9 +33,6 @@ spring:
   application:
     name: rocketmq-dashboard
 
-logging:
-  config: classpath:logback.xml
-
 rocketmq:
   config:
     # if this value is empty,use env value rocketmq.config.namesrvAddr  NAMESRV_ADDR | now, default localhost:9876

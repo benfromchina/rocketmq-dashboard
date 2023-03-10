@@ -21,6 +21,18 @@ sh build-image-dashboard.sh ${VERSION} centos
 sh build-image-dashboard-jar.sh ${VERSION} centos
 ```
 
+#### change log path
+
+```shell
+-Dlogging.file.path=LOG_PATH
+```
+
+#### change data path
+
+```shell
+-Drocketmq.config.dataPath=DATA_PATH
+```
+
 ### Run with docker
 
 #### Pull from [docker hub(rocketmq-dashboard)](https://hub.docker.com/r/apacherocketmq/rocketmq-dashboard/tags)
